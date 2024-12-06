@@ -1,6 +1,11 @@
 import Principal "mo:base/Principal";
 import Time "mo:base/Time";
+import HashMap "mo:base/HashMap";
+
 module {
+
+    public type HashMap<Ok, Err> = HashMap.HashMap<Ok, Err>;
+
 
     public type Role = {
         #Student;
@@ -11,13 +16,14 @@ module {
     public type Member = {
         name : Text;
         role : Role;
+        tokens: Nat;
     };
 
     public type ProposalId = Nat;
 
     public type ProposalContent = {
         #ChangeManifesto : Text; // Change the manifesto to the provided text
-        #AddGoal : Text;
+        //#AddGoal : Text;
         #AddMentor : Principal; // Upgrade the member to a mentor with the provided principal
     };
 
