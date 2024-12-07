@@ -167,7 +167,7 @@ actor {
                     // Create a proposal to change the manifesto
                     let newProposal: Proposal = {
                         id = nextProposalId;
-                        content = content;  // The content contains the new manifesto text
+                        content = newManifesto;  // The content contains the new manifesto text
                         creator = caller;
                         created = Time.now();
                         executed = null;
