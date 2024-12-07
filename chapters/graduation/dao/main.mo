@@ -167,7 +167,7 @@ actor {
                     // Create a proposal to change the manifesto
                     let newProposal: Proposal = {
                         id = nextProposalId;
-                        content = newManifesto;  // The content contains the new manifesto text
+                        content = #ChangeManifesto(newManifesto);  // The content contains the new manifesto text
                         creator = caller;
                         created = Time.now();
                         executed = null;
@@ -205,7 +205,7 @@ actor {
                     // Create a proposal to add a mentor
                     let newProposal: Proposal = {
                         id = nextProposalId;
-                        content = content;  // The content contains the Principal to be added as a mentor
+                        content = #AddMentor(newMentor); 
                         creator = caller;
                         created = Time.now();
                         executed = null;
