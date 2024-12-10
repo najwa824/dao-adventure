@@ -164,6 +164,9 @@ actor {
             // Handle different types of proposals
             switch(content) {
                 case (#ChangeManifesto(newManifesto)) {
+                    if (newManifesto == "") {
+                        return #err("The new manifesto cannot be empty!");
+                    };
                     // Create a proposal to change the manifesto
                     let newProposal: Proposal = {
                         id = nextProposalId;
