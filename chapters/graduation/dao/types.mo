@@ -16,7 +16,6 @@ module {
     public type Member = {
         name : Text;
         role : Role;
-        tokens: Nat;
     };
 
     public type ProposalId = Nat;
