@@ -43,16 +43,17 @@ actor {
     let graduation_token = actor("jaamb-mqaaa-aaaaj-qa3ka-cai") : actor {
         mint : shared (owner : Principal, amount : Nat) -> async Result<(), Text>;
         burn : shared (owner : Principal, amount : Nat) -> async Result<(), Text>;
+        balanceOf : (owner : Principal) -> async Nat;
     };
 
     // The principal of the Webpage canister associated with this DAO canister (needs to be updated with the ID of your Webpage canister)
-    stable let canisterIdWebpage: Principal = Principal.fromText("zrakb-eaaaa-aaaab-qacaq-cai");
+    stable let canisterIdWebpage: Principal = Principal.fromText("xii67-oyaaa-aaaab-qadca-cai");
     stable var manifesto = "lets graduate!!!";
     stable let name = "Motoko Bootcamp";
     //stable var goals = [];
     let goals = Buffer.Buffer<Text>(0);
 
-    let webPage = actor("zrakb-eaaaa-aaaab-qacaq-cai") : actor {
+    let webPage = actor("xii67-oyaaa-aaaab-qadca-cai") : actor {
         setManifesto : shared (newManifesto : Text) -> async Result<(), Text>;
     };
 
@@ -82,7 +83,7 @@ actor {
                 let newMember: Member = {
                     name = member.name;
                     role = #Student;
-                    tokens = 10;
+                    //tokens = 10;
                 };
                 members.put(caller, newMember);
                 switch(await graduation_token.mint(caller, 10)) {
@@ -135,7 +136,7 @@ actor {
                         let newGraduate: Member = {
                             name = member.name;
                             role = #Graduate;
-                            tokens = member.tokens;
+                            //tokens = member.tokens;
                         };
                         members.put(caller, newGraduate);
                         return #ok();
@@ -154,7 +155,8 @@ actor {
             return #err("The caller is not a member!");
         };
         case(? member) {
-            if (member.tokens < 1) {
+            let balance = await graduation_token.balanceOf(caller);
+            if (balance < 1) {
                 return #err("Insufficient balance to create a proposal!");
             };
             if (member.role != #Mentor) {
@@ -181,6 +183,7 @@ actor {
                     proposals.put(nextProposalId, newProposal);
                     
                     // Burn 1 token to create the proposal
+
                     switch(await graduation_token.burn(caller, 1)) {
                         case(#ok()) {
                             nextProposalId += 1;
@@ -276,7 +279,7 @@ actor {
                             return #err("Students can't vote!");
                         };
 
-                        let balance = member.tokens;
+                        let balance = await graduation_token.balanceOf(caller);
                         let multiplierVote = if (yesOrNo) { 1 } else { -1 };
 
                         let newVoteScore = proposal.voteScore + (if (member.role == #Mentor) { 5 * balance } else { balance }) * multiplierVote;
@@ -359,7 +362,7 @@ actor {
                     let newMember: Member = {
                         name = member.name;
                         role = #Mentor;
-                        tokens = member.tokens;
+                        //tokens = member.tokens;
                     };
                     // Update the member in the `members` map
                     members.put(newMentor, newMember);
