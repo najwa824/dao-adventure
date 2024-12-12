@@ -24,7 +24,7 @@ actor Webpage {
 
     // This function should only be callable by the DAO canister (no one else should be able to change the manifesto)
     public shared ({ caller }) func setManifesto(newManifesto : Text) : async Result<(), Text> {
-        let daoCanister = Principal.fromText("yjj7c-kaaaa-aaaab-qaceq-cai");
+        let daoCanister = Principal.fromText("x5pps-pqaaa-aaaab-qadbq-cai");
         switch(Principal.equal(caller, daoCanister)) {
             case(true) { 
                 manifesto := newManifesto;
